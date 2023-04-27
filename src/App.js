@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 
+import { v4 } from "uuid";
+
 import socketio from "socket.io-client";
 
 const socket = socketio("http://127.0.0.1:9000");
@@ -62,6 +64,8 @@ const App = () => {
     const playBotAudio = (audio_url) => {
         try {
 
+            console.log("audio url: ", audio_url);
+
             if (!audio_url) throw new Error("Audio Url not received to playBotAudio function...");
 
             if (botAudioPlayRef.current) {
@@ -73,6 +77,25 @@ const App = () => {
             audio.play();
 
             botAudioPlayRef.current = audio;
+
+        } catch (err) {
+            console.log("Error: ", err);
+        }
+    }
+
+    const startWebCallSession = () => {
+        try {
+
+            audioContextRef.current.resume();
+            isStreaming.current = true;
+
+            socket.emit("join_room", {
+                userType: "user",
+                roomName: v4(),
+                name: "MK",
+                phone: "909090",
+                email: "abcd@djb.fgn"
+            })
 
         } catch (err) {
             console.log("Error: ", err);
@@ -149,8 +172,12 @@ const App = () => {
     useEffect(() => {
         startStreaming();
 
+        socket.on("greeting", (data) => {
+            console.log("Greeting from server with socket Id: ", data.socketId)
+        })
+
         socket.on("vb-response", (data) => {
-            console.log("Data: ", data.audio_file_url);
+            // console.log("Data: ", data.audio_file_url);
 
             if (!data.audio_file_url) throw new Error("Audio location path not received...");
 
@@ -170,10 +197,7 @@ const App = () => {
             </stripe-pricing-table> */}
 
             <button
-                onClick={() => {
-                    audioContextRef.current.resume();
-                    isStreaming.current = true;
-                }}
+                onClick={startWebCallSession}
             >
                 Start
             </button>
