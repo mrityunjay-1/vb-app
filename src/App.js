@@ -16,16 +16,16 @@ const App = () => {
 
             const audioContext = new AudioContext();
             audioContextRef.current = audioContext;
-            
+
             if (audioContext.state !== "suspended") {
                 // console.log("not suspended");
                 audioContext.suspend();
             }
-            
+
             await audioContext.audioWorklet.addModule('myAudioWorklet.js');
-            
+
             const sourceNode = audioContext.createMediaStreamSource(stream);
-            
+
             console.log("buffer size (let's keep it default): ", 128);
             console.log("sampling rate: ", sourceNode.context.sampleRate);
 
@@ -39,7 +39,7 @@ const App = () => {
                 if (i === 75) {
                     console.log(`${i} chunks sampled at 128 buffer size at sampling rate of ${sourceNode.context.sampleRate}`, chunk);
 
-                    socket.emit("audio", chunk);
+                    socket.emit("audioStream", { audioData: chunk });
 
                     chunk = [];
                     i = 1;
