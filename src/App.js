@@ -9,12 +9,14 @@ const App = () => {
     const audioContextRef = useRef(null);
     const isStreaming = useRef(false);
 
+    const botAudioPlayRef = useRef(null);
+
     const startStreaming = async () => {
         try {
 
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
-            const audioContext = new AudioContext();
+            const audioContext = new AudioContext({ sampleRate: 48000 });
             audioContextRef.current = audioContext;
 
             if (audioContext.state !== "suspended") {
@@ -51,6 +53,26 @@ const App = () => {
 
             sourceNode.connect(myAudioWorklet);
             myAudioWorklet.connect(audioContext.destination);
+
+        } catch (err) {
+            console.log("Error: ", err);
+        }
+    }
+
+    const playBotAudio = (audio_url) => {
+        try {
+
+            if (!audio_url) throw new Error("Audio Url not received to playBotAudio function...");
+
+            if (botAudioPlayRef.current) {
+                botAudioPlayRef.current.pause();
+            }
+
+            const audio = new Audio(audio_url);
+
+            audio.play();
+
+            botAudioPlayRef.current = audio;
 
         } catch (err) {
             console.log("Error: ", err);
@@ -126,6 +148,16 @@ const App = () => {
 
     useEffect(() => {
         startStreaming();
+
+        socket.on("vb-response", (data) => {
+            console.log("Data: ", data.audio_file_url);
+
+            if (!data.audio_file_url) throw new Error("Audio location path not received...");
+
+            playBotAudio(data.audio_file_url);
+
+        });
+
     }, [])
 
     return (
