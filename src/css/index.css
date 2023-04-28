@@ -1,0 +1,39 @@
+html {
+    scroll-behavior: smooth;
+    font-size: 62.5%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+input {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.7rem;
+}
+
+.form-p-tag {
+    font-size: 1.6rem;
+    padding: 0.4rem 0;
+}
+
+.form-container {
+    width: 30%;
+}
+
+.form-container-div {
+    margin-bottom: 2rem;
+}
+
+@media(max-width: 76rem) {
+    .form-container {
+        width: 90%;
+    }
+}

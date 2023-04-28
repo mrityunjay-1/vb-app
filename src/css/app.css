@@ -1,0 +1,19 @@
+.start-call-button {
+    width: 100%;
+    font-size: 2rem;
+    padding: 1rem 4rem;
+    background-color: indigo;
+    color: white;
+    border: 0.1rem solid black;
+    border-radius: 1rem;
+}
+
+.cut-call-button {
+    cursor: pointer;
+    font-size: 2rem;
+    padding: 1rem 4rem;
+    background-color: indigo;
+    color: white;
+    border: 0.1rem solid black;
+    border-radius: 1rem;
+}
