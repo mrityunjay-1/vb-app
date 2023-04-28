@@ -20,9 +20,9 @@ const App = () => {
     const botAudioPlayRef = useRef(null);
 
     // user form to be filled before making web call
-    const [name, setName] = useState("mk");
-    const [phone, setPhone] = useState("9090909090");
-    const [email, setEmail] = useState("sjfb@jbhfdg.dfgj");
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [email, setEmail] = useState("");
 
     const [userSocketId, setUserSocketId] = useState("");
 
