@@ -231,29 +231,6 @@ const App = () => {
 
     return (
         <>
-            {/* <p>Stripe payment integration</p>
-
-            <stripe-pricing-table
-                pricing-table-id="prctbl_1MysvQSAT8GypcQnlmycOTeO"
-                publishable-key="pk_test_51MkNWySAT8GypcQnhAUiW99pJEhlmddjxyQOulyBbXo4JvK4wV7KT1pjFcZsTvmbXms7gDkImYPDwNXCfgaBfX2700jSL79IlV">
-            </stripe-pricing-table> */}
-
-            {/* <button
-                onClick={startWebCallSession}
-            >
-                Start
-            </button> */}
-
-            {/* <button
-                onClick={() => {
-                    audioContextRef.current.suspend();
-                    isStreaming.current = false;
-                }}
-            >
-                Stop
-            </button> */}
-
-
             {
                 room_joined ?
 
