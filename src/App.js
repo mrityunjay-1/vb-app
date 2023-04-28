@@ -4,7 +4,7 @@ import { v4 } from "uuid";
 
 import socketio from "socket.io-client";
 
-const socket = socketio("http://127.0.0.1:9000");
+const socket = socketio(process.env.REACT_APP_SERVER_URL);
 
 const App = () => {
 
