@@ -111,6 +111,11 @@ const App = () => {
     const startWebCallSession = () => {
         try {
 
+            if (!name || !phone || !email) {
+                alert("please enter all the asked details...");
+                return;
+            }
+
             set_room_joined(true);
 
             // audioContextRef.current.resume();
@@ -119,9 +124,9 @@ const App = () => {
             socket.emit("join_room", {
                 userType: "user",
                 roomName: v4(),
-                name: "MK",
-                phone: "909090",
-                email: "abcd@djb.fgn"
+                name,
+                phone,
+                email
             });
 
             let botAudio = new Audio(`${process.env.REACT_APP_SERVER_URL}/airlines_new_airlines_greeting_msg_tts.mp3`);
