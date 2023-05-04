@@ -17,7 +17,7 @@
 
 .bot-trigger-button {
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 0.6rem;
     background-color: lightgreen;
     display: grid;
     padding: 1.5rem;
@@ -30,13 +30,16 @@
     width: 100%;
     flex: 1;
     margin-bottom: 1rem;
-    background-color: red;
-    border-radius: 0.4rem;
+    background-color: #85BB65;
+    border-radius: 0.6rem;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     transition: opacity 0.3s ease-in-out;
-
+    overflow: auto;
+    padding: 2rem 1rem;
+    box-shadow: 0.1rem 0.1rem 1rem grey;
+    border: 0.01rem solid grey;
 }
 
 @media(max-width: 78rem) {

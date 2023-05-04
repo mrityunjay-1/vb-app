@@ -19,7 +19,10 @@ const App = () => {
     const audioContextRef = useRef(null);
     const isStreaming = useRef(false);
 
-    const [tenantId, setTenantId] = useState("");
+    // eslint-disable-next-line
+    const [tenantId, _setTenantId] = useState(new URLSearchParams(window?.location?.search).get("tenantId"));
+
+    console.log("tenantId: ", tenantId);
 
     const botAudioPlayRef = useRef(null);
 
@@ -137,7 +140,7 @@ const App = () => {
                 email
             });
 
-            let botAudio = new Audio(`${process.env.REACT_APP_SERVER_URL}/airlines_new_airlines_greeting_msg_tts.mp3`);
+            let botAudio = new Audio(`https://mrityunjay.site/bjTkuhFE1wx82q1wAADN/user_20230504154853.wav`);
             botAudio.play();
 
             botAudio.onended = () => {
@@ -232,17 +235,27 @@ const App = () => {
     useEffect(() => {
         startStreaming();
 
-        const messagelistener = window.addEventListener("message", (event) => {
+        // getting tenant ID from query search params
+        // console.log("window?.location?.search MK : ", window?.location?.search);
+        // const params = new URLSearchParams(window?.location?.search);
+        // const tid = params.get("tenantId"); // tid : tenantId
 
-            console.log("Event: ", event);
+        // if (tid) {
+        //     console.log("tid : ", tid);
+        //     setTenantId(tid);
+        // }
 
-            if (event && event.data && event.data.tenantId) {
+        // const messagelistener = window.addEventListener("message", (event) => {
 
-                if (!tenantId) {
-                    setTenantId(event.data.tenantId);
-                }
-            }
-        });
+        //     console.log("Event: ", event);
+
+        //     if (event && event.data && event.data.tenantId) {
+
+        //         if (!tenantId) {
+        //             setTenantId(event.data.tenantId);
+        //         }
+        //     }
+        // });
 
         socket.on("greeting", (data) => {
             console.log("Greeting from server with socket Id: ", data.socketId);
@@ -258,9 +271,9 @@ const App = () => {
 
         });
 
-        return () => {
-            messagelistener()
-        }
+        // return () => {
+        //     messagelistener()
+        // }
         // eslint-disable-next-line
     }, [])
 
@@ -322,7 +335,7 @@ const App = () => {
 
                                     :
 
-                                    <div style={{ width: "100%", height: "100%", flex: 1, backgroundColor: "#85BB65", display: "grid", placeItems: "center" }}>
+                                    <div style={{ width: "100%", height: "100%", flex: 1, display: "grid", placeItems: "center" }}>
 
                                         <div className="form-container">
 
