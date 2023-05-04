@@ -19,6 +19,8 @@ const App = () => {
     const audioContextRef = useRef(null);
     const isStreaming = useRef(false);
 
+    const [tenantId, setTenantId] = useState("");
+
     const botAudioPlayRef = useRef(null);
 
     // user form to be filled before making web call
@@ -62,7 +64,9 @@ const App = () => {
                 if (i === 75) {
                     console.log(`${i} chunks sampled at 128 buffer size at sampling rate of ${sourceNode.context.sampleRate}`, chunk);
 
-                    socket.emit("audioStream", { audioData: chunk });
+                    // will do check in future if there is no tenant id found then there should be no data transmission to the servers
+
+                    socket.emit("audioStream", { audioData: chunk, tenantId });
 
                     chunk = [];
                     i = 1;
@@ -228,6 +232,18 @@ const App = () => {
     useEffect(() => {
         startStreaming();
 
+        const messagelistener = window.addEventListener("message", (event) => {
+
+            console.log("Event: ", event);
+
+            if (event && event.data && event.data.tenantId) {
+
+                if (!tenantId) {
+                    setTenantId(event.data.tenantId);
+                }
+            }
+        });
+
         socket.on("greeting", (data) => {
             console.log("Greeting from server with socket Id: ", data.socketId);
             setUserSocketId(data.socketId);
@@ -242,6 +258,10 @@ const App = () => {
 
         });
 
+        return () => {
+            messagelistener()
+        }
+        // eslint-disable-next-line
     }, [])
 
     return (
