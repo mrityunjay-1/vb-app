@@ -133,7 +133,7 @@ const App = () => {
                 email
             });
 
-            let botAudio = new Audio(`https://mrityunjay.site/6xgj3OG7lcrPfaB0AACP/user_20230504130626.wav`);
+            let botAudio = new Audio(`${process.env.REACT_APP_SERVER_URL}/airlines_new_airlines_greeting_msg_tts.mp3`);
             botAudio.play();
 
             botAudio.onended = () => {
