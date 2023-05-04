@@ -1,3 +1,54 @@
+.container {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.bot-trigger-button-container {
+    cursor: pointer;
+}
+
+.bot-trigger-button {
+    border: none;
+    border-radius: 0.5rem;
+    background-color: lightgreen;
+    display: grid;
+    padding: 1.5rem;
+    font-size: 2rem;
+    place-items: center;
+    cursor: pointer;
+}
+
+.bot-container {
+    width: 100%;
+    flex: 1;
+    margin-bottom: 1rem;
+    background-color: red;
+    border-radius: 0.4rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: opacity 0.3s ease-in-out;
+
+}
+
+@media(max-width: 78rem) {
+    .container {
+        width: 99%;
+    }
+
+    .bot-container {
+        width: 100%;
+    }
+}
+
 .start-call-button {
     width: 100%;
     font-size: 2rem;

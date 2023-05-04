@@ -10,7 +10,9 @@ import { v4 } from "uuid";
 
 import socketio from "socket.io-client";
 
-const socket = socketio(process.env.REACT_APP_SERVER_URL);
+const socket = socketio(process.env.REACT_APP_SERVER_URL, {
+    autoConnect: false
+});
 
 const App = () => {
 
@@ -25,10 +27,10 @@ const App = () => {
     const [email, setEmail] = useState("");
 
     const [userSocketId, setUserSocketId] = useState("");
-
     const [room_joined, set_room_joined] = useState(false);
-
     const [imgSrc, setImgSrc] = useState();
+
+    const [showBotContainer, setShowBotContainer] = useState(false);
 
     const startStreaming = async () => {
         try {
@@ -116,6 +118,8 @@ const App = () => {
                 return;
             }
 
+            socket.connect();
+
             set_room_joined(true);
 
             // audioContextRef.current.resume();
@@ -129,7 +133,7 @@ const App = () => {
                 email
             });
 
-            let botAudio = new Audio(`${process.env.REACT_APP_SERVER_URL}/airlines_new_airlines_greeting_msg_tts.mp3`);
+            let botAudio = new Audio(`https://mrityunjay.site/6xgj3OG7lcrPfaB0AACP/user_20230504130626.wav`);
             botAudio.play();
 
             botAudio.onended = () => {
@@ -145,7 +149,10 @@ const App = () => {
     const cutCall = () => {
         audioContextRef.current.suspend();
         isStreaming.current = false;
-        window.location.reload();
+        socket.disconnect();
+        setUserSocketId("");
+        set_room_joined(false);
+        // setShowBotContainer(false);
     }
 
     // useEffect(() => {
@@ -236,96 +243,107 @@ const App = () => {
 
     return (
         <>
-            {
-                room_joined ?
+            <div className="container">
 
-                    <>
-                        <div style={{ width: "100vw", height: "100vh", background: "linear-gradient(to right bottom, lightgreen, purple)", display: "grid", placeItems: "center" }}>
-
-                            <div style={{ width: "100%", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
-                                <h1 style={{ fontSize: "3rem" }}>Hello, {name}</h1>
-                                <p style={{ fontSize: "1.5rem" }}>Email: {email}</p>
-                                <p style={{ fontSize: "1.5rem" }}>Phone: {phone}</p>
-                            </div>
-
+                {
+                    showBotContainer ?
+                        <div className="bot-container">
                             {
-                                userSocketId ?
+                                room_joined ?
+
                                     <>
+                                        <div style={{ width: "100%", height: "100%", flex: 1, background: "linear-gradient(to right bottom, lightgreen, purple)", display: "grid", placeItems: "center" }}>
 
-                                        {
-                                            imgSrc
-                                                ?
-                                                <>
-                                                    {/* <p>Your socket id is : {userSocketId}</p> */}
+                                            <div style={{ width: "100%", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+                                                <h1 style={{ fontSize: "3rem" }}>Hello, {name}</h1>
+                                                <p style={{ fontSize: "1.5rem" }}>Email: {email}</p>
+                                                <p style={{ fontSize: "1.5rem" }}>Phone: {phone}</p>
+                                            </div>
 
-                                                    <div style={{ width: "40%", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
-                                                        <img src={micIcon} style={{ width: "50%" }} alt="mic-icon" />
-                                                        <br />
-                                                        <br />
-                                                        <h2 style={{ textAlign: "center" }}>Keep saying and wait for responses as you want, like a phone call...</h2>
-                                                        <br />
-                                                        <br />
-                                                        <h1 id="dotter" style={{ textAlign: "center" }}>I am listening</h1>
-                                                    </div>
-                                                </>
-                                                :
-                                                <div style={{ width: "40%", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
-                                                    <img src={micInitial} style={{ width: "50%" }} alt="mic-initial-icon" />
-                                                </div>
+                                            {
+                                                userSocketId ?
+                                                    <>
 
-                                        }
+                                                        {
+                                                            imgSrc
+                                                                ?
+                                                                <>
+                                                                    {/* <p>Your socket id is : {userSocketId}</p> */}
 
+                                                                    <div style={{ width: "40%", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+                                                                        <img src={micIcon} style={{ width: "50%" }} alt="mic-icon" />
+                                                                        <br />
+                                                                        <br />
+                                                                        <h2 style={{ textAlign: "center" }}>Keep saying and wait for responses as you want, like a phone call...</h2>
+                                                                        <br />
+                                                                        <br />
+                                                                        <h1 id="dotter" style={{ textAlign: "center" }}>I am listening</h1>
+                                                                    </div>
+                                                                </>
+                                                                :
+                                                                <div style={{ width: "40%", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+                                                                    <img src={micInitial} style={{ width: "50%" }} alt="mic-initial-icon" />
+                                                                </div>
+
+                                                        }
+
+                                                    </>
+                                                    :
+                                                    <p>uh-oh! Looks like this app is not able to communicate with the backend server.</p>
+                                            }
+
+                                            <button className="cut-call-button" onClick={cutCall}> Disconnect &nbsp; ❌ </button>
+
+                                        </div>
                                     </>
+
                                     :
-                                    <p>uh-oh! Looks like this app is not able to communicate with the backend server.</p>
+
+                                    <div style={{ width: "100%", height: "100%", flex: 1, backgroundColor: "#85BB65", display: "grid", placeItems: "center" }}>
+
+                                        <div className="form-container">
+
+                                            <div style={{ display: "grid", placeItems: "center" }}>
+                                                <img alt="logo" src={Logo} style={{ userSelect: "none", width: "70%", filter: "drop-shadow(0.1rem 0.5rem 0.3rem #233142)" }} />
+                                                <p style={{ userSelect: "none", fontSize: "1.2rem" }}>Crafted with  ❤️ At <a alt="oriserve" style={{ textDecoration: "none", color: "black" }} href="https://oriserve.com">Oriserve</a> Noida</p>
+                                            </div>
+
+                                            <br />
+                                            <br />
+
+                                            <div className="form-container-div">
+                                                <p className="form-p-tag">Name</p>
+                                                <input value={name} onChange={(e) => setName(e.target.value)} type="text" id="name" placeholder="Your Name" required />
+                                            </div>
+
+                                            <div className="form-container-div">
+                                                <p className="form-p-tag">Phone No</p>
+                                                <input value={phone} onChange={(e) => setPhone(e.target.value)} type="text" id="name" placeholder="Your Phone No. Ex: 12345667890" required />
+                                            </div>
+
+                                            <div className="form-container-div">
+                                                <p className="form-p-tag">Email</p>
+                                                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="name" placeholder="Your Email Ex: abcd@example.com" required />
+                                            </div>
+
+                                            <br />
+                                            <br />
+
+                                            <button className="start-call-button" onClick={startWebCallSession} > 📞  &nbsp; Start Call  </button>
+
+                                        </div>
+                                    </div>
                             }
-
-                            <button className="cut-call-button" onClick={cutCall}> Disconnect &nbsp; ❌ </button>
-
                         </div>
-                    </>
+                        :
+                        <div></div>
+                }
 
-                    :
+                <div className="bot-trigger-button-container" onClick={() => setShowBotContainer(!showBotContainer)}>
+                    <button className="bot-trigger-button">{showBotContainer ? "❌" : "📞"}</button>
+                </div>
 
-                    <div style={{ width: "100vw", height: "100vh", backgroundColor: "#85BB65", display: "grid", placeItems: "center" }}>
-
-                        <div className="form-container">
-
-                            <div style={{ display: "grid", placeItems: "center" }}>
-                                <img alt="logo" src={Logo} style={{ userSelect: "none", width: "70%", filter: "drop-shadow(0.1rem 0.5rem 0.3rem #233142)" }} />
-                                <p style={{ userSelect: "none", fontSize: "1.2rem" }}>Crafted with  ❤️ At <a alt="oriserve" style={{ textDecoration: "none", color: "black" }} href="https://oriserve.com">Oriserve</a> Noida</p>
-                            </div>
-
-                            <br />
-                            <br />
-
-                            <div className="form-container-div">
-                                <p className="form-p-tag">Name</p>
-                                <input value={name} onChange={(e) => setName(e.target.value)} type="text" id="name" placeholder="Your Name" required />
-                            </div>
-
-                            <div className="form-container-div">
-                                <p className="form-p-tag">Phone No</p>
-                                <input value={phone} onChange={(e) => setPhone(e.target.value)} type="text" id="name" placeholder="Your Phone No. Ex: 12345667890" required />
-                            </div>
-
-                            <div className="form-container-div">
-                                <p className="form-p-tag">Email</p>
-                                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="name" placeholder="Your Email Ex: abcd@example.com" required />
-                            </div>
-
-                            <br />
-                            <br />
-
-                            <button className="start-call-button" onClick={startWebCallSession} > 📞  &nbsp; Call  </button>
-
-                        </div>
-                    </div>
-            }
-
-
-
-
+            </div>
         </>
     );
 }
