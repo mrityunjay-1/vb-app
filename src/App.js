@@ -152,6 +152,9 @@ const App = () => {
         socket.disconnect();
         setUserSocketId("");
         set_room_joined(false);
+
+        // promptToGiveFeedback();
+
         // setShowBotContainer(false);
     }
 
@@ -305,7 +308,7 @@ const App = () => {
 
                                             <div style={{ display: "grid", placeItems: "center" }}>
                                                 <img alt="logo" src={Logo} style={{ userSelect: "none", width: "70%", filter: "drop-shadow(0.1rem 0.5rem 0.3rem #233142)" }} />
-                                                <p style={{ userSelect: "none", fontSize: "1.2rem" }}>Crafted with  ❤️ At <a alt="oriserve" style={{ textDecoration: "none", color: "black" }} href="https://oriserve.com">Oriserve</a> Noida</p>
+                                                <p style={{ userSelect: "none", fontSize: "1.2rem" }}>Crafted with  ❤️ At <a rel="noreferrer" target="_blank" alt="oriserve" style={{ textDecoration: "none", color: "black" }} href="https://oriserve.com">Oriserve</a> Noida</p>
                                             </div>
 
                                             <br />
