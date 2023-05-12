@@ -158,9 +158,10 @@ const App = () => {
     const cutCall = () => {
         audioContextRef.current.suspend();
         isStreaming.current = false;
-        socket.disconnect();
+        botAudioPlayRef.current.pause();
         setUserSocketId("");
         set_room_joined(false);
+        socket.disconnect();
 
         // promptToGiveFeedback();
 
