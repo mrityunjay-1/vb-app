@@ -39,6 +39,9 @@ const App = () => {
 
     const container = useRef(null);
 
+    // screen wake Lock ref
+    const wakeLockRef = useRef(null);
+
     const startStreaming = async () => {
         try {
 
@@ -127,6 +130,10 @@ const App = () => {
                 return;
             }
 
+            // Acquiring Screen Lock
+            acquireScreenWakeLock();
+
+            // Connecting with socket
             socket.connect();
 
             set_room_joined(true);
@@ -157,6 +164,45 @@ const App = () => {
         }
     }
 
+    const acquireScreenWakeLock = () => {
+        try {
+
+            if ("wakeLock" in navigator) {
+
+                navigator.wakeLock.request("screen")
+                    .then((wakeLock) => {
+                        console.log("Screen wake Locked while having the conversation...");
+                        wakeLockRef.current = wakeLock;
+                    })
+                    .catch(() => {
+                        console.log("Screen wake Locking failed...")
+                    })
+
+            } else {
+                console.log("Wake Lock feature is not available in this browser...");
+            }
+
+        } catch (err) {
+            console.log("Error in acquireScreenWakeLock function...");
+        }
+    }
+
+    const releaseScreenWakeLock = () => {
+        try {
+            if (wakeLockRef.current) {
+                wakeLockRef.current.release()
+                    .then(() => {
+                        console.log("Screen wake lock released successfully...");
+                    })
+                    .catch(() => {
+                        console.log("Screen wake lock release failed...");
+                    })
+            }
+        } catch (err) {
+            console.log("Error in releaseScreenWakeLock Function...");
+        }
+    }
+
     const cutCall = () => {
         audioContextRef.current.suspend();
         isStreaming.current = false;
@@ -164,6 +210,9 @@ const App = () => {
         if (botAudioPlayRef?.current) {
             botAudioPlayRef.current.pause();
         }
+
+        // releasing screen wake lock
+        releaseScreenWakeLock();
 
         setUserSocketId("");
         set_room_joined(false);
@@ -289,7 +338,11 @@ const App = () => {
     useEffect(() => {
         const windowHeight = window.innerHeight;
         container.current.height = windowHeight + "px";
-    });
+
+        return () => {
+            releaseScreenWakeLock();
+        }
+    }, []);
 
     return (
         <>
