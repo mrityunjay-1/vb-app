@@ -142,13 +142,13 @@ const App = () => {
                 email
             });
 
-            // let botAudio = new Audio(`${process.env.REACT_APP_SERVER_URL}/airlines_new_airlines_greeting_msg_tts.mp3`);
-            // botAudio.play();
+            let botAudio = new Audio(`${process.env.REACT_APP_SERVER_URL}/airlines_new_airlines_greeting_msg_tts.mp3`);
+            botAudio.play();
 
-            // botAudio.onended = () => {
+            botAudio.onended = () => {
                 audioContextRef.current.resume();
-            //     setImgSrc(true);
-            // }
+                setImgSrc(true);
+            }
 
         } catch (err) {
             console.log("Error: ", err);
