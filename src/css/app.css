@@ -71,3 +71,9 @@
     border: 0.1rem solid black;
     border-radius: 1rem;
 }
+
+@media(max-width: 76rem) {
+    .container {
+        padding-bottom: 6rem;
+    }
+}
