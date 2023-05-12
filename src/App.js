@@ -20,9 +20,9 @@ const App = () => {
     const isStreaming = useRef(false);
 
     // eslint-disable-next-line
-    const [tenantId, _setTenantId] = useState(new URLSearchParams(window?.location?.search).get("tenantId"));
+    const [botId, _setBotId] = useState(new URLSearchParams(window?.location?.search).get("botId"));
 
-    console.log("tenantId: ", tenantId);
+    console.log("botId: ", botId);
 
     const botAudioPlayRef = useRef(null);
 
@@ -36,6 +36,8 @@ const App = () => {
     const [imgSrc, setImgSrc] = useState();
 
     const [showBotContainer, setShowBotContainer] = useState(false);
+
+    const container = useRef(null);
 
     const startStreaming = async () => {
         try {
@@ -69,7 +71,7 @@ const App = () => {
 
                     // will do check in future if there is no tenant id found then there should be no data transmission to the servers
 
-                    socket.emit("audioStream", { audioData: chunk, tenantId });
+                    socket.emit("audioStream", { audioData: chunk, botId });
 
                     chunk = [];
                     i = 1;
@@ -140,13 +142,13 @@ const App = () => {
                 email
             });
 
-            let botAudio = new Audio(`${process.env.REACT_APP_SERVER_URL}/airlines_new_airlines_greeting_msg_tts.mp3`);
-            botAudio.play();
+            // let botAudio = new Audio(`${process.env.REACT_APP_SERVER_URL}/airlines_new_airlines_greeting_msg_tts.mp3`);
+            // botAudio.play();
 
-            botAudio.onended = () => {
+            // botAudio.onended = () => {
                 audioContextRef.current.resume();
-                setImgSrc(true);
-            }
+            //     setImgSrc(true);
+            // }
 
         } catch (err) {
             console.log("Error: ", err);
@@ -238,21 +240,21 @@ const App = () => {
         // getting tenant ID from query search params
         // console.log("window?.location?.search MK : ", window?.location?.search);
         // const params = new URLSearchParams(window?.location?.search);
-        // const tid = params.get("tenantId"); // tid : tenantId
+        // const tid = params.get("botId"); // tid : botId
 
         // if (tid) {
         //     console.log("tid : ", tid);
-        //     setTenantId(tid);
+        //     setbotId(tid);
         // }
 
         // const messagelistener = window.addEventListener("message", (event) => {
 
         //     console.log("Event: ", event);
 
-        //     if (event && event.data && event.data.tenantId) {
+        //     if (event && event.data && event.data.botId) {
 
-        //         if (!tenantId) {
-        //             setTenantId(event.data.tenantId);
+        //         if (!botId) {
+        //             setbotId(event.data.botId);
         //         }
         //     }
         // });
@@ -275,11 +277,16 @@ const App = () => {
         //     messagelistener()
         // }
         // eslint-disable-next-line
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        const windowHeight = window.innerHeight;
+        container.current.height = windowHeight + "px";
+    });
 
     return (
         <>
-            <div className="container">
+            <div ref={container} className="container" id="container">
 
                 {
                     showBotContainer ?
