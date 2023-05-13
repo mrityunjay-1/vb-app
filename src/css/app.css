@@ -74,8 +74,8 @@
     border-radius: 1rem;
 }
 
-@media(max-width: 76rem) {
+/* @media(max-width: 76rem) {
     .container {
         padding-bottom: 6rem;
     }
-}
+} */
