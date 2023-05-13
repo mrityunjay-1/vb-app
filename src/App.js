@@ -336,8 +336,8 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        const windowHeight = window.innerHeight;
-        container.current.height = windowHeight + "px";
+        // const windowHeight = window.innerHeight;
+        // container.current.height = windowHeight + "px";
 
         return () => {
             releaseScreenWakeLock();
