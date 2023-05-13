@@ -204,7 +204,11 @@ const App = () => {
     }
 
     const cutCall = () => {
-        audioContextRef.current.suspend();
+
+        if (audioContextRef.current) {
+            audioContextRef.current.suspend();
+        }
+
         isStreaming.current = false;
 
         if (botAudioPlayRef?.current) {
