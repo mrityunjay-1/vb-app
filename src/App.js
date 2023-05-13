@@ -157,7 +157,7 @@ const App = () => {
             //     setImgSrc(true);
             // }
 
-            playBotAudio(`https://startup-901-bucket.s3.ap-south-1.amazonaws.com/airlines_new_airlines_greeting_msg_tts.mp3`);
+            playBotAudio(`${process.env.REACT_APP_SERVER_URL}/airlines_new_airlines_greeting_msg_tts.mp3`);
 
         } catch (err) {
             console.log("Error: ", err);
