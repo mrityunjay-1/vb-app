@@ -130,6 +130,16 @@ const App = () => {
                 return;
             }
 
+            if (phone && phone.length !== 10) {
+                return alert("please enter valid phone number...");
+            }
+
+            console.log("email: ", email);
+
+            if (email && !(email.includes("@") && email.includes("."))) {
+                return alert("please enter valid email address...");
+            }
+
             // Acquiring Screen Lock
             acquireScreenWakeLock();
 
