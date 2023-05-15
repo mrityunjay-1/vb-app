@@ -21,6 +21,7 @@ const App = () => {
 
     // eslint-disable-next-line
     const [botId, _setBotId] = useState(new URLSearchParams(window?.location?.search).get("botId"));
+    // const [isBotOpen, _setIsbbotOpen] = useState(new URLSearchParams(window?.location?.search).get("botId"));
 
     console.log("botId: ", botId);
 
@@ -35,7 +36,7 @@ const App = () => {
     const [room_joined, set_room_joined] = useState(false);
     const [imgSrc, setImgSrc] = useState();
 
-    const [showBotContainer, setShowBotContainer] = useState(false);
+    const [showBotContainer, setShowBotContainer] = useState(Boolean(new URLSearchParams(window?.location?.search).get("isBotOpen")) ?? false);
 
     const container = useRef(null);
 
