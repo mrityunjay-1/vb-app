@@ -3,6 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import Logo from "./assets/images/logo.png";
 import micIcon from "./assets/images/mic.gif";
 import micInitial from "./assets/images/mic-initial.png";
+import edtechImg from "./assets/images/edtech.jpg";
+import tourismImg from "./assets/images/tourism.jpg";
+import testImg from "./assets/images/tesla.png";
 
 import "./css/app.css";
 
@@ -23,7 +26,12 @@ const App = () => {
     const [botId, _setBotId] = useState(new URLSearchParams(window?.location?.search).get("botId"));
     // const [isBotOpen, _setIsbbotOpen] = useState(new URLSearchParams(window?.location?.search).get("botId"));
 
+    // eslint-disable-next-line
+    const [botName, _setBotName] = useState(new URLSearchParams(window?.location?.search).get("botName"));
+
     console.log("botId: ", botId);
+
+    console.log("bot name: ", botName)
 
     const botAudioPlayRef = useRef(null);
 
@@ -75,7 +83,7 @@ const App = () => {
 
                     // will do check in future if there is no tenant id found then there should be no data transmission to the servers
 
-                    socket.emit("audioStream", { audioData: chunk, botId });
+                    socket.emit("audioStream", { audioData: chunk, botId, botName });
 
                     chunk = [];
                     i = 1;
@@ -164,11 +172,11 @@ const App = () => {
             // botAudio.play();
 
             // botAudio.onended = () => {
-            //     audioContextRef.current.resume();
+            audioContextRef.current.resume();
             //     setImgSrc(true);
             // }
 
-            playBotAudio(`${process.env.REACT_APP_SERVER_URL}/airlines_new_airlines_greeting_msg_tts.mp3`);
+            // playBotAudio(`${process.env.REACT_APP_SERVER_URL}/airlines_new_airlines_greeting_msg_tts.mp3`);
 
         } catch (err) {
             console.log("Error: ", err);
@@ -361,107 +369,177 @@ const App = () => {
 
     return (
         <>
-            <div ref={container} className="container" id="container">
 
-                {
-                    showBotContainer ?
-                        <div className="bot-container">
-                            {
-                                room_joined ?
+            {
+                botName ?
 
-                                    <>
-                                        <div style={{ width: "100%", height: "100%", flex: 1, background: "linear-gradient(to right bottom, lightgreen, purple)", display: "grid", placeItems: "center" }}>
+                    <div ref={container} className="container" id="container">
 
-                                            <div style={{ width: "100%", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
-                                                <h1 style={{ fontSize: "3rem" }}>Hello, {name}</h1>
-                                                <p style={{ fontSize: "1.5rem" }}>Email: {email}</p>
-                                                <p style={{ fontSize: "1.5rem" }}>Phone: {phone}</p>
+                        {
+                            showBotContainer ?
+                                <div className="bot-container">
+                                    {
+                                        room_joined ?
+
+                                            <>
+                                                <div style={{ width: "100%", height: "100%", flex: 1, background: "linear-gradient(to right bottom, lightgreen, purple)", display: "grid", placeItems: "center" }}>
+
+                                                    <div style={{ width: "100%", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+                                                        <h1 style={{ fontSize: "3rem" }}>Hello, {name}</h1>
+                                                        <p style={{ fontSize: "1.5rem" }}>Email: {email}</p>
+                                                        <p style={{ fontSize: "1.5rem" }}>Phone: {phone}</p>
+                                                    </div>
+
+                                                    {
+                                                        userSocketId ?
+                                                            <>
+
+                                                                {
+                                                                    imgSrc
+                                                                        ?
+                                                                        <>
+                                                                            {/* <p>Your socket id is : {userSocketId}</p> */}
+
+                                                                            <div style={{ width: "40%", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+                                                                                <img src={micIcon} style={{ width: "50%" }} alt="mic-icon" />
+                                                                                <br />
+                                                                                <br />
+                                                                                <h2 style={{ textAlign: "center" }}>Keep saying and wait for responses as you want, like a phone call...</h2>
+                                                                                <br />
+                                                                                <br />
+                                                                                <h1 id="dotter" style={{ textAlign: "center" }}>I am listening</h1>
+                                                                            </div>
+                                                                        </>
+                                                                        :
+                                                                        <div style={{ width: "40%", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+                                                                            <img src={micInitial} style={{ width: "50%" }} alt="mic-initial-icon" />
+                                                                        </div>
+
+                                                                }
+
+                                                            </>
+                                                            :
+                                                            <p>uh-oh! Looks like this app is not able to communicate with the backend server.</p>
+                                                    }
+
+                                                    <button className="cut-call-button" onClick={cutCall}> Disconnect &nbsp; ❌ </button>
+
+                                                </div>
+                                            </>
+
+                                            :
+
+                                            <div style={{ width: "100%", height: "100%", flex: 1, display: "grid", placeItems: "center" }}>
+
+                                                <div className="form-container">
+
+                                                    <div style={{ display: "grid", placeItems: "center" }}>
+                                                        <img alt="logo" src={Logo} style={{ userSelect: "none", width: "70%", filter: "drop-shadow(0.1rem 0.5rem 0.3rem #233142)" }} />
+                                                        <p style={{ userSelect: "none", fontSize: "1.2rem" }}>Crafted with  ❤️ At <a rel="noreferrer" target="_blank" alt="oriserve" style={{ textDecoration: "none", color: "black" }} href="https://oriserve.com">Oriserve</a> Noida</p>
+                                                    </div>
+
+                                                    <br />
+                                                    <br />
+
+                                                    <div className="form-container-div">
+                                                        <p className="form-p-tag">Name</p>
+                                                        <input value={name} onChange={(e) => setName(e.target.value)} type="text" id="name" placeholder="Your Name" required />
+                                                    </div>
+
+                                                    <div className="form-container-div">
+                                                        <p className="form-p-tag">Phone No</p>
+                                                        <input value={phone} onChange={(e) => setPhone(e.target.value)} type="text" id="name" placeholder="Your Phone No. Ex: 12345667890" required />
+                                                    </div>
+
+                                                    <div className="form-container-div">
+                                                        <p className="form-p-tag">Email</p>
+                                                        <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="name" placeholder="Your Email Ex: abcd@example.com" required />
+                                                    </div>
+
+                                                    <br />
+                                                    <br />
+
+                                                    <button className="start-call-button" onClick={startWebCallSession} > 📞  &nbsp; Start Call  </button>
+
+                                                </div>
                                             </div>
+                                    }
+                                </div>
+                                :
+                                <div></div>
+                        }
 
-                                            {
-                                                userSocketId ?
-                                                    <>
-
-                                                        {
-                                                            imgSrc
-                                                                ?
-                                                                <>
-                                                                    {/* <p>Your socket id is : {userSocketId}</p> */}
-
-                                                                    <div style={{ width: "40%", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
-                                                                        <img src={micIcon} style={{ width: "50%" }} alt="mic-icon" />
-                                                                        <br />
-                                                                        <br />
-                                                                        <h2 style={{ textAlign: "center" }}>Keep saying and wait for responses as you want, like a phone call...</h2>
-                                                                        <br />
-                                                                        <br />
-                                                                        <h1 id="dotter" style={{ textAlign: "center" }}>I am listening</h1>
-                                                                    </div>
-                                                                </>
-                                                                :
-                                                                <div style={{ width: "40%", display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
-                                                                    <img src={micInitial} style={{ width: "50%" }} alt="mic-initial-icon" />
-                                                                </div>
-
-                                                        }
-
-                                                    </>
-                                                    :
-                                                    <p>uh-oh! Looks like this app is not able to communicate with the backend server.</p>
-                                            }
-
-                                            <button className="cut-call-button" onClick={cutCall}> Disconnect &nbsp; ❌ </button>
-
-                                        </div>
-                                    </>
-
-                                    :
-
-                                    <div style={{ width: "100%", height: "100%", flex: 1, display: "grid", placeItems: "center" }}>
-
-                                        <div className="form-container">
-
-                                            <div style={{ display: "grid", placeItems: "center" }}>
-                                                <img alt="logo" src={Logo} style={{ userSelect: "none", width: "70%", filter: "drop-shadow(0.1rem 0.5rem 0.3rem #233142)" }} />
-                                                <p style={{ userSelect: "none", fontSize: "1.2rem" }}>Crafted with  ❤️ At <a rel="noreferrer" target="_blank" alt="oriserve" style={{ textDecoration: "none", color: "black" }} href="https://oriserve.com">Oriserve</a> Noida</p>
-                                            </div>
-
-                                            <br />
-                                            <br />
-
-                                            <div className="form-container-div">
-                                                <p className="form-p-tag">Name</p>
-                                                <input value={name} onChange={(e) => setName(e.target.value)} type="text" id="name" placeholder="Your Name" required />
-                                            </div>
-
-                                            <div className="form-container-div">
-                                                <p className="form-p-tag">Phone No</p>
-                                                <input value={phone} onChange={(e) => setPhone(e.target.value)} type="text" id="name" placeholder="Your Phone No. Ex: 12345667890" required />
-                                            </div>
-
-                                            <div className="form-container-div">
-                                                <p className="form-p-tag">Email</p>
-                                                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="name" placeholder="Your Email Ex: abcd@example.com" required />
-                                            </div>
-
-                                            <br />
-                                            <br />
-
-                                            <button className="start-call-button" onClick={startWebCallSession} > 📞  &nbsp; Start Call  </button>
-
-                                        </div>
-                                    </div>
-                            }
+                        <div className="bot-trigger-button-container" onClick={() => setShowBotContainer(!showBotContainer)}>
+                            <button className="bot-trigger-button">{showBotContainer ? "❌" : "📞"}</button>
                         </div>
-                        :
-                        <div></div>
-                }
 
-                <div className="bot-trigger-button-container" onClick={() => setShowBotContainer(!showBotContainer)}>
-                    <button className="bot-trigger-button">{showBotContainer ? "❌" : "📞"}</button>
-                </div>
+                    </div>
 
-            </div>
+                    :
+
+                    <div className="botCardContainers">
+
+                        <div style={{ padding: "0 2% 2% 2%", textAlign: "center", fontSize: "2.8rem", color: "grey" }}>
+                            <p>Welcome to TalkFusion</p>
+                        </div>
+
+                        <div className="bots">
+                            <div>
+
+                                <div>
+                                    <img src={edtechImg} className="bot-images" alt="edtech" />
+
+                                </div>
+
+                                <div style={{ margin: "1rem 0" }}>
+                                    <p style={{ fontSize: "1.6rem" }}>EdTech, or Education Technology, refers to the integration of technology into educational practices to enhance teaching and learning experiences. It encompasses a wide range of tools and technologies, such as computers, tablets, online platforms, educational apps, and more.</p>
+                                </div>
+
+                                <div style={{ width: "100%", flex: 1, marginTop: "2rem" }}>
+                                    <a className="anchor-button" href={`${process.env.REACT_APP_OWN_URL}?isBotOpen=true&botName=edtech`}> Call Us </a>
+                                </div>
+
+                            </div>
+
+                            <div>
+
+                                <div>
+                                    <img src={tourismImg} className="bot-images" alt="edtech" style={{ width: "100%" }} />
+
+                                </div>
+
+                                <div style={{ margin: "1rem 0" }}>
+                                    <p style={{ fontSize: "1.6rem" }}>Travel is the only thing you buy that makes you richer”. We completely swear by this and believe in fulfilling travel dreams that make you invariably rich by the day. We have been selling beautiful experiences for years through our state-of-the-art designed holiday packages and other essential travel services. We inspire our customers to live a rich life, full of unforgettable travel experiences</p>
+                                </div>
+
+                                <div style={{ width: "100%", flex: 1, marginTop: "2rem" }}>
+                                    <a dis className="anchor-button" style={{ pointerEvents: "none", background: "grey" }} href={`${process.env.REACT_APP_OWN_URL}?isBotOpen=true&botName=tourism`}> Call Us </a>
+                                </div>
+
+                            </div>
+
+                            <div>
+
+                                <div>
+                                    <img src={testImg} className="bot-images" alt="edtech" style={{ width: "100%" }} />
+
+                                </div>
+
+                                <div style={{ margin: "1rem 0" }}>
+                                    <p style={{ fontSize: "1.6rem" }}>Tesla is an electric vehicle manufacturer and clean energy company led by billionaire Elon Musk. Tesla is also the biggest seller of plug-in electric vehicles; its Model 3 sedan, which debuted in 2017, is the world's all-time bestselling plug-in EV, having sold more than 800,000 before the start of 2021.</p>
+                                </div>
+
+                                <div style={{ width: "100%", flex: 1, marginTop: "2rem" }}>
+                                    <a className="anchor-button" style={{ pointerEvents: "none", background: "grey" }} href={`${process.env.REACT_APP_OWN_URL}?isBotOpen=true&botName=tesla`}> Call Us </a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+            }
+
         </>
     );
 }

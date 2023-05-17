@@ -79,3 +79,69 @@
         padding-bottom: 6rem;
     }
 } */
+
+
+
+/* bot card containers in main page when bot name not available */
+
+.botCardContainers {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    padding: 2%;
+    background-color: #e6e6e6;
+    overflow: auto;
+    flex-direction: column;
+}
+
+.bots {
+    display: flex;
+    justify-content: space-between;
+}
+
+.bots > div {
+    width: 30%;
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border: 0.1rem solid grey;
+    border-radius: 0.5rem;
+    background-color: white;
+    height: auto;
+}
+
+.anchor-button {
+    padding: 1rem 3rem;
+    text-decoration: none;
+    color: black;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    background: linear-gradient(to bottom right, pink, cyan);
+    font-size: 1.4rem;
+    border: 0.01rem solid lightgrey;
+}
+
+.bot-images {
+    width: 100%;
+    height: 20rem;
+    contain: content; 
+}
+
+@media(max-width: 760px) {
+
+    .bots {
+        flex-direction: column;
+    }
+
+    .bots > div {
+        width: 100%;
+        padding: 2rem 2rem 5rem 2rem;
+        margin-top: 2rem;
+    }
+
+}
