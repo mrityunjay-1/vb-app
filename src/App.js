@@ -172,11 +172,11 @@ const App = () => {
             // botAudio.play();
 
             // botAudio.onended = () => {
-            audioContextRef.current.resume();
+            // audioContextRef.current.resume();
             //     setImgSrc(true);
             // }
 
-            // playBotAudio(`${process.env.REACT_APP_SERVER_URL}/airlines_new_airlines_greeting_msg_tts.mp3`);
+            playBotAudio(`${process.env.REACT_APP_SERVER_URL}/airlines_new_airlines_greeting_msg_tts.mp3`);
 
         } catch (err) {
             console.log("Error: ", err);
