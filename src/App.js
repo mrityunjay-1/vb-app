@@ -13,6 +13,8 @@ import { v4 } from "uuid";
 
 import socketio from "socket.io-client";
 
+import { GREETING_MESSAGES } from "./config/constants";
+
 const socket = socketio(process.env.REACT_APP_SERVER_URL, {
     autoConnect: false
 });
@@ -27,7 +29,7 @@ const App = () => {
     // const [isBotOpen, _setIsbbotOpen] = useState(new URLSearchParams(window?.location?.search).get("botId"));
 
     // eslint-disable-next-line
-    const [botName, _setBotName] = useState(new URLSearchParams(window?.location?.search).get("botName"));
+    const [botName, _setBotName] = useState(new URLSearchParams(window?.location?.search).get("botName") ?? "general");
 
     console.log("botId: ", botId);
 
@@ -168,15 +170,14 @@ const App = () => {
                 email
             });
 
-            // let botAudio = new Audio(`${process.env.REACT_APP_SERVER_URL}/airlines_new_airlines_greeting_msg_tts.mp3`);
-            // botAudio.play();
+            let botAudio = new Audio(`${process.env.REACT_APP_SERVER_URL}/tring_tring.mp3`);
+            botAudio.play();
 
-            // botAudio.onended = () => {
-            // audioContextRef.current.resume();
-            //     setImgSrc(true);
-            // }
-
-            playBotAudio(`${process.env.REACT_APP_SERVER_URL}/airlines_new_airlines_greeting_msg_tts.mp3`);
+            botAudio.onended = () => {
+                audioContextRef.current.resume();
+                setImgSrc(true);
+                playBotAudio(`${process.env.REACT_APP_SERVER_URL}/${GREETING_MESSAGES[botName]}`);
+            }
 
         } catch (err) {
             console.log("Error: ", err);
@@ -240,6 +241,9 @@ const App = () => {
         setUserSocketId("");
         set_room_joined(false);
         socket.disconnect();
+
+        // eslint-disable-next-line
+        history.back();
 
         // promptToGiveFeedback();
 
@@ -371,7 +375,7 @@ const App = () => {
         <>
 
             {
-                botName ?
+                botName !== "general" ?
 
                     <div ref={container} className="container" id="container">
 
