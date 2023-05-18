@@ -106,6 +106,8 @@ const App = () => {
     const playBotAudio = (audio_url) => {
         try {
 
+            audio_url = audio_url + "?time=" + new Date().getTime();
+
             setImgSrc(false);
             audioContextRef.current.suspend();
 
