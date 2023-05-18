@@ -513,7 +513,7 @@ const App = () => {
                                 </div>
 
                                 <div style={{ width: "100%", flex: 1, marginTop: "2rem" }}>
-                                    <a dis className="anchor-button" style={{ pointerEvents: "none", background: "grey" }} href={`${process.env.REACT_APP_OWN_URL}?isBotOpen=true&botName=tourism`}> Call Us </a>
+                                    <a dis className="anchor-button" href={`${process.env.REACT_APP_OWN_URL}?isBotOpen=true&botName=tourism`}> Call Us </a>
                                 </div>
 
                             </div>
@@ -530,7 +530,7 @@ const App = () => {
                                 </div>
 
                                 <div style={{ width: "100%", flex: 1, marginTop: "2rem" }}>
-                                    <a className="anchor-button" style={{ pointerEvents: "none", background: "grey" }} href={`${process.env.REACT_APP_OWN_URL}?isBotOpen=true&botName=tesla`}> Call Us </a>
+                                    <a className="anchor-button" href={`${process.env.REACT_APP_OWN_URL}?isBotOpen=true&botName=tesla`}> Call Us </a>
                                 </div>
 
                             </div>
