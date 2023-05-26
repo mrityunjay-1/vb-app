@@ -172,14 +172,14 @@ const App = () => {
                 email
             });
 
-            let botAudio = new Audio(`${process.env.REACT_APP_SERVER_URL}/tring_tring.mp3`);
-            botAudio.play();
+            // let botAudio = new Audio(`${process.env.REACT_APP_SERVER_URL}/tring_tring.mp3`);
+            // botAudio.play();
 
-            botAudio.onended = () => {
-                audioContextRef.current.resume();
-                setImgSrc(true);
-                playBotAudio(`${process.env.REACT_APP_SERVER_URL}/${GREETING_MESSAGES[botName]}`);
-            }
+            // botAudio.onended = () => {
+            //     audioContextRef.current.resume();
+            //     setImgSrc(true);
+            playBotAudio(`${process.env.REACT_APP_SERVER_URL}/${GREETING_MESSAGES[botName]}`);
+            // }
 
         } catch (err) {
             console.log("Error: ", err);
